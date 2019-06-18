@@ -1,0 +1,114 @@
+{% extends "layout.html" %}
+{% block body %}
+<h3>Ürünler</h3>
+<hr>
+<div class = "row">
+        <div class="col-lg-8">
+        <form>
+                {% csrf_token %}
+                <input type="text" name = "keyword" class="input-sm" maxlength="64" placeholder="Ara...">
+            <button type="submit" class="btn btn-danger">Ara</button>
+        </form>
+</div>
+</div>
+
+
+{% if products %}
+{% for product in products %}
+<div class="row">
+    
+    
+    
+    <!-- Post Content Column -->
+    <div class="col-lg-8">
+
+        <!-- Title -->
+        <a href="{%url 'product:detail' product.id %}"><h3 class="mt-4">{{product.title}}</h3></a> 
+
+        <!-- Author -->
+        <p class="lead">
+        by
+        {{product.author.username}}
+        </p>
+
+        <hr>
+
+        <!-- Date/Time -->
+        <p>{{product.created_date}}</p>
+
+        <hr>
+
+        <!-- Preview Image -->
+        {% if product.product_image %}
+        <a href="/products/product/{{product.id}}"><img class="img-fluid rounded" src="{{product.product_image.url}}" alt=""></a>
+        {% endif %}
+
+        <hr>
+
+        <!-- Post Content -->
+        <p class="lead">
+            {{product.properties|safe|truncatewords:50}}
+            
+        </p>
+
+        <a style= "float : right;"href="/products/product/{{product.id}}" class = "btn btn-danger">Devamını oku...</a>
+        <hr>
+
+
+
+    </div>
+
+    <!-- Sidebar Widgets Column -->
+    <div class="col-md-4">
+
+
+
+        <!-- Categories Widget -->
+        <div class="card my-4">
+        <h5 class="card-header">Categories</h5>
+        <div class="card-body">
+            <div class="row">
+            <div class="col-lg-6">
+                <ul class="list-unstyled mb-0">
+                <li>
+                    <a href="#">Web Design</a>
+                </li>
+                <li>
+                    <a href="#">HTML</a>
+                </li>
+                <li>
+                    <a href="#">Freebies</a>
+                </li>
+                </ul>
+            </div>
+            <div class="col-lg-6">
+                <ul class="list-unstyled mb-0">
+                <li>
+                    <a href="#">JavaScript</a>
+                </li>
+                <li>
+                    <a href="#">CSS</a>
+                </li>
+                <li>
+                    <a href="#">Tutorials</a>
+                </li>
+                </ul>
+            </div>
+         </div>
+         </div>
+    </div>
+  
+
+  
+</div>
+</div>
+
+{% endfor %}
+
+
+{% else %}
+<div class = "alert alert-danger">
+    Ürün Bulunamadı
+</div>
+{% endif %}
+{% endblock body %}

@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h3>Kontrol Paneli</h3>
+<hr>
+<p>
+    Hoşgeldiniz, {{request.user.username}}
+</p>
+<hr>
+<a class = "btn btn-danger" href = "{% url 'product:addproduct' %}">Ürün Ekle</a>
+<hr>
+{% if products %}
+<table class="table">
+        <thead>
+          <tr>
+            <th scope="col">id</th>
+            <th scope="col">Ürün Adı</th>
+            <th scope="col">Kullanıcı</th>
+            <th scope="col">Tarih</th>
+            <th scope="col">Güncelle</th>
+            <th scope="col">Sil</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for product in products  %}
+            <tr>
+                <th scope="row">{{product.id}}</th>
+                <td><a href="/products/product/{{product.id}}">{{product.title}}</a></td>
+                <td>{{product.author.username}}</td>
+                <td>{{product.created_date}}</td>
+                <td><a href="/products/update/{{product.id}}" class = "btn btn-danger">Güncelle</a></td>
+                <td><a href="/products/delete/{{product.id}}"class = "btn btn-danger">Sil</a></td>
+            </tr>
+            {% endfor %}
+          
+
+        </tbody>
+</table>
+{% else %}
+<div class = "alert alert-danger">Eklenmiş bir ürün bulunmuyor.</div>
+{% endif %}
+
+{% endblock body %}
